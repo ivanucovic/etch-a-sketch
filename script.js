@@ -50,7 +50,10 @@ body.insertBefore(controlDiv, container);
 playArea = container; // Alias for consistency with user snippet
 playArea.addEventListener('mouseover', function (event) {
     if (event.target.classList.contains('grid-item')) {
-        event.target.style.backgroundColor = 'black';
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        event.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
     }
 });
 
