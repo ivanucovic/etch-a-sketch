@@ -1,21 +1,38 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    gap: 20px;
+    font-family: sans-serif;
+}
+
+h1 {
+    margin: 0;
+}
+
+#control-div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 #container {
     display: flex;
     flex-wrap: wrap;
-    width: 80vmin;
-    height: 80vmin;
+    width: 60vmin; /* Making it slightly smaller so it fits nicely with header/controls */
+    height: 60vmin;
     border: 1px solid black;
 }
 
 .grid-item {
-    /* 100% / 16 = 6.25% */
+    /* Calculated by JS or 100% / columns */
+    /* width/height will be set by JS dynamically if we want to support resizing, 
+       but for now hardcoded to 16x16, let's keep the explicit CSS but moving towards JS dynamic sizing might be needed soon.
+       Actually, since we are doing resizing, using flex-basis is better or updating JS to set width.
+       For now, keeping 16x16 logic in CSS until JS logic for resizing is fully implemented. */
     width: 6.25%;
     height: 6.25%;
     border: 1px solid #ddd;
