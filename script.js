@@ -47,14 +47,32 @@ controlDiv.appendChild(buttonReset);
 body.insertBefore(controlDiv, container);
 
 // Event Listeners
+// Event Listeners
 playArea = container; // Alias for consistency with user snippet
+let isRGBMode = true;
+
 playArea.addEventListener('mouseover', function (event) {
     if (event.target.classList.contains('grid-item')) {
-        const r = Math.floor(Math.random() * 256);
-        const g = Math.floor(Math.random() * 256);
-        const b = Math.floor(Math.random() * 256);
-        event.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        if (isRGBMode) {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            event.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        } else {
+            const gray = Math.floor(Math.random() * 256);
+            event.target.style.backgroundColor = `rgb(${gray}, ${gray}, ${gray})`;
+        }
     }
+});
+
+const buttonMode = document.createElement("button");
+buttonMode.textContent = "Mode: RGB";
+buttonMode.setAttribute("id", "button-mode");
+controlDiv.appendChild(buttonMode);
+
+buttonMode.addEventListener('click', () => {
+    isRGBMode = !isRGBMode;
+    buttonMode.textContent = isRGBMode ? "Mode: RGB" : "Mode: Gray";
 });
 
 buttonCreate.addEventListener('click', () => {
