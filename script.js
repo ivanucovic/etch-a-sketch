@@ -1,7 +1,12 @@
 const container = document.querySelector('#container');
 const body = document.querySelector("body");
 
+let currentGridSize = 16;
+let globalShadeCount = 0;
+
 function createGrid(size = 16) {
+    currentGridSize = size;
+    globalShadeCount = 0; // Reset shade count on new grid
     container.innerHTML = ''; // Clear existing grid
     
     // Update CSS variable or style for item size if needed, 
@@ -59,8 +64,18 @@ playArea.addEventListener('mouseover', function (event) {
             const b = Math.floor(Math.random() * 256);
             event.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
         } else {
-            const gray = Math.floor(Math.random() * 256);
-            event.target.style.backgroundColor = `rgb(${gray}, ${gray}, ${gray})`;
+            // Global Progressive Mode
+            // Increase darkness as you draw more
+            globalShadeCount++;
+            
+            // Calculate lightness: starts at 100 (white) and goes to 0 (black)
+            // It reaches 0 when globalShadeCount == currentGridSize
+            // We clamp it so it stays black after that.
+            let brightnessFactor = globalShadeCount / currentGridSize;
+            if (brightnessFactor > 1) brightnessFactor = 1;
+            
+            const lightness = 100 - (brightnessFactor * 100);
+            event.target.style.backgroundColor = `hsl(0, 0%, ${lightness}%)`;
         }
     }
 });
@@ -73,6 +88,7 @@ controlDiv.appendChild(buttonMode);
 buttonMode.addEventListener('click', () => {
     isRGBMode = !isRGBMode;
     buttonMode.textContent = isRGBMode ? "Mode: RGB" : "Mode: Gray";
+    globalShadeCount = 0; // Reset shade count when switching modes
 });
 
 buttonCreate.addEventListener('click', () => {
@@ -85,6 +101,7 @@ buttonCreate.addEventListener('click', () => {
 buttonReset.addEventListener('click', () => {
     const items = document.querySelectorAll('.grid-item');
     items.forEach(item => item.style.backgroundColor = '');
+    globalShadeCount = 0; // Reset shade count on reset
 });
 
 // Initial grid
